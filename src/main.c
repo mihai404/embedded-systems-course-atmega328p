@@ -1,7 +1,7 @@
 #include "drivers/gpio/gpio.h"
 #include "drivers/timer/timer0.h"
 #include "bsp/nano.h"
-
+#include "delay.h"
 int main(void) {
     
     Timer0_Init();
@@ -12,6 +12,7 @@ int main(void) {
     uint32_t last_time = 0;
 
     while (1) {
+
             
         if (Millis() - last_time >= 1000) {
             last_time = Millis();
