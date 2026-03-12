@@ -7,7 +7,7 @@ F_CPU = 16000000UL
 # Programmer Settings
 PROGRAMMER = arduino
 # ls /dev/tty*
-PORT = /dev/cu.usbserial-1130
+PORT = /dev/cu.usbserial-3130	
 BAUD = 57600
 # BAUD = 115200
 
