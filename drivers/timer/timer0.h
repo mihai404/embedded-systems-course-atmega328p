@@ -18,5 +18,6 @@ void Timer0_Init(void);
  * @return uint32_t Milliseconds
  */
 uint32_t Millis(void);
+void Timer0_InitCallback(void (*callback)(void));
 
 #endif // TIMER0_H

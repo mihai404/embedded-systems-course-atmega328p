@@ -1,21 +1,31 @@
 #include "drivers/gpio/gpio.h"
-#include "drivers/interrupt/external_interrupt.h"
+#include "drivers/timer/timer0.h"
 #include "bsp/nano.h"
 
-
-static void OnButtonPress(void) {
-GPIO_Toggle(LED_BUILTIN);
-}
-
 int main(void) {
-GPIO_Init(LED_BUILTIN, GPIO_OUTPUT);
+    // 1. Inițializăm sistemul de timp
+    Timer0_Init();
 
-GPIO_Init(D2, GPIO_INPUT);
-GPIO_Write(D2, GPIO_HIGH); // pull-up intern
+    // 2. Definim pinii conform conexiunilor tale fizice
+    GPIO_Init(D13, GPIO_OUTPUT); // Primul LED pe D13
+    GPIO_Init(D12, GPIO_OUTPUT); // Al doilea LED pe D12
 
-ExtInt_Init(INT_0, EXT_INT_FALLING_EDGE, OnButtonPress);
+    uint32_t last_time1 = 0;
+    uint32_t last_time2 = 0;
 
-while (1) {
-// Bucla principala ramane libera pentru alte task-uri.
-}
+    while (1) {
+        uint32_t current_time = Millis();
+
+        // Logica pentru LED-ul de pe D13 (200 ms)
+        if (current_time - last_time1 >= 800) {
+            last_time1 = current_time;
+            GPIO_Toggle(D13);
+        }
+
+        // Logica pentru LED-ul de pe D12 (1000 ms)
+        if (current_time - last_time2 >= 1000) {
+            last_time2 = current_time;
+            GPIO_Toggle(D12);
+        }
+    }
 }
